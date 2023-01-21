@@ -1,0 +1,67 @@
+ 
+ <div class="col-lg-6 mx-lg-auto">
+  <div class="card shadow">
+    <div class="card-header">
+      <h2 class="card-title text-center">Specific Projects</h2>
+    </div>
+    <div class="card-body">
+
+    <% if @project.errors.any? %>
+          <h2> Errors </h2>
+          <ul>
+          <% @project.errors.full_messages.each do |message| %>
+            <li> <%= message %></li>
+            <% end %>
+          </ul>
+          <% end %>
+
+          
+    <h2> Name :<%= @project.name  %></h2>
+    <p>  Description :<%= @project.description  %> </p>
+    <hr />
+    
+     <% if can? :manage , Project %>
+      <table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">User ID</th>
+      <th scope="col">User Name</th>
+      <th scope="col">User Type</th>
+      <th scope="col">Add / Remove</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% User.all.each do |user| %>
+    <% if user.user_type != "Manager" %>
+        <tr>
+        <td> <%=user.id%> </td>
+        <td> <%=user.name%> </td>
+        <td> <%=user.user_type%> </td>
+        <% @user_projects = UserProject.find_by(user_id: user.id , project_id: @project.id) %>
+        <%if @user_projects.blank?%>
+          <td> <%= link_to "Add User"  ,  userAssignToProject_path(@project , user) %> </td>
+          <% end %>    
+          <%if !@user_projects.blank?%>
+          <td> <%= link_to "Remove User"  ,  userAssignToProject_path(@project , user) %> </td>
+          <% end %>   
+        </tr>
+        <% end %>
+        <% end %>
+        </tbody>
+</table>
+      <% end %>
+       <% if can? :create , Bug %>
+        <p> <%= link_to "Add Bug" , new_project_bug_path(@project) %> |
+        <% end %> 
+    <%= link_to "Show All Bug" , project_bugs_path(@project) %> 
+     </p>
+          
+    </div>
+    </div>
+    </div>
+
+    <script>
+   
+    </script>
+ 
+ 

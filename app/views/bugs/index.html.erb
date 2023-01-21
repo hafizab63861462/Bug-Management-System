@@ -1,0 +1,34 @@
+<div class="col-lg-6 mx-lg-auto">
+  <div class="card shadow">
+    <div class="card-header">
+      <h2 class="card-title text-center">All Bugs </h2>
+    </div>
+    <div class="card-body">
+
+  
+
+<% @bugs.each do |bug| %>
+    <p> Bug Title : <%= link_to bug.title , project_bug_path(@project.id , bug) %> </p>
+    <p> Dead Line : <%= bug.deadline.strftime("%d-%m-%Y") if bug.deadline %> </p>
+    <p> Status : <%= bug.status  %> </p>
+    <p> Description : <%= bug.description  %> </p>
+    <p> Bug Type : <%= bug.bug_type  %> </p>
+    <p> Project ID : <%= bug.project_id  %> </p>
+    <p>  User Who Creat Bug :<%= User.find(bug.user_id).name  %> </p>
+     <p> Developer Who Solve the Bug <%= User.find(bug.dev_id).name if bug.dev_id  %> </p>
+
+     <% if can? :manage , Bug %>
+         <p> <%= link_to "Edit Bug" , edit_project_bug_path(@project.id, bug) %> |
+     <%= link_to "Delete Bug" , [bug.project, bug] , :confirm => "Are you Sure ?" , :method => :delete  %> 
+     </p>
+        <% end %>
+    <hr />
+    <% end%>
+
+    <% if can? :manage , Bug %>
+ <p> <%= link_to "Add Bug" , new_project_bug_path %></p>
+      <% end %>
+   
+     </div>
+      </div>
+       </div>

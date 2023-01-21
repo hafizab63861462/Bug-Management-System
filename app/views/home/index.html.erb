@@ -1,0 +1,31 @@
+<div class="col-lg-6 mx-lg-auto">
+  <div class="card shadow">
+    <div class="card-header">
+      <h2 class="card-title text-center">Wel Come to Bug Management System</h2>
+    </div>
+    <div class="card-body">
+
+    <% if user_signed_in? %>
+<h3 class="card-title text-center"> Login User Information</h3>
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">User ID</th>
+      <th scope="col">User Name</th>
+      <th scope="col">User Type</th>
+    </tr>
+  </thead>
+  <tbody>
+
+  <tr>
+        <td> <%=current_user.id%> </td>
+        <td> <%=current_user.name%> </td>
+        <td> <%=current_user.user_type%> </td>
+        </tr>
+        </tbody>
+</table>
+
+     </div>
+      </div>
+       </div>
+<% end %>

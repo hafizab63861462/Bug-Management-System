@@ -1,0 +1,27 @@
+<div class="col-lg-6 mx-lg-auto">
+  <div class="card shadow">
+    <div class="card-header">
+      <h2 class="card-title text-center">All Projects</h2>
+    </div>
+    <div class="card-body">
+
+  
+
+<% @projects.each do |project| %>
+    <h2> <%= link_to project.name ,project %></h2>
+    <p>  <%= project.description  %> </p>
+    <% if can? :manage , Project %>
+     <p> <%= link_to "Edit Project" , edit_project_path(project) %> |
+         <%= link_to "Delete Project" , project , :confirm => "Are you Sure ?" , :method => :delete  %>  
+     </p>
+      <% end %>
+    <hr />
+    <% end%>
+
+     <% if can? :manage , Project %>
+      <p> <%= link_to "Add Project" , new_project_path%></p>
+      <% end %>
+    
+     </div>
+      </div>
+       </div>

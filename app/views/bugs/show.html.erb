@@ -1,0 +1,60 @@
+<div class="col-lg-6 mx-lg-auto">
+  <div class="card shadow">
+    <div class="card-header">
+      <h2 class="card-title text-center">Specific Bug</h2>
+    </div>
+    <div class="card-body">
+
+    <% if @bug.errors.any? %>
+        <h2> Errors </h2>
+        <ul>
+        <% @bug.errors.full_messages.each do |message| %>
+            <li> <%= message %></li>
+            <% end %>
+            </ul>
+            <% end %>
+
+    <h2>Bug Name : <%= @bug.title  %> </h2>
+    <p>  Bug Dead Line : <%= @bug.deadline.strftime("%d-%m-%Y") if @bug.deadline  %> </p>
+     <p>  Bug Status : <%= @bug.status  %> </p>
+    <p>  Bug Description : <%= @bug.description  %> </p>
+    <p>  Bug Type : <%= @bug.bug_type  %> </p>
+   <p>  User Who Creat Bug :<%= User.find(@bug.user_id).name  %> </p>
+     <p> Developer Who Solve the Bug <%= User.find(@bug.dev_id).name if @bug.dev_id  %> </p>
+    <p> Bug Image : <%= image_tag @bug.image_url(:thumb) if @bug.image? %> </p>
+    
+     <% if current_user.user_type == "Manager" %>
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">User ID</th>
+      <th scope="col">User Name</th>
+      <th scope="col">User Type</th>
+      <th scope="col">Add / Remove</th>
+    </tr>
+  </thead>
+  <tbody>
+
+   <% User.all.each do |user| %>
+      <% p =  @project.users.where(id: user.id) %>
+    <% if (user.user_type == "Developer") &&  (p.count > 0)%>
+        <tr>
+        <td> <%=user.id%> </td>
+        <td> <%=user.name%> </td>
+        <td> <%=user.user_type%> </td>
+         <% if @bug.dev_id == user.id%>
+          <td> <%= link_to "Remove User"  , userAssignToBug_path(@project , @bug , user) %> </td>
+          <% else %>
+          <td> <%= link_to "Add User"  , userAssignToBug_path(@project , @bug , user) %> </td>
+          <% end %>
+        </tr>
+        <% end %>
+        <% end %> 
+        </tbody>
+</table>
+      <%end %>
+    
+
+      </div>
+    </div>
+    </div>
